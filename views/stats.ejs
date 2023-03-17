@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <link rel="stylesheet" href="/css/styles.css" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Spotify Stats</title>
-</head>
-<body>
-  <h1>Your Spotify Stats</h1>
-  <h2>Welcome, <%= displayName %></h2>
-  <img src="<%= imageUrl %>" alt="Profile picture" width="200">
-  <p>Email: <%= email %></p>
-  <button onclick="window.location.href='/top-artists'">View Top Artists of the Month</button>
-  <a href="/logout">Log out</a>
-</body>
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Spotify Stats</title>
+  </head>
+  <body>
+    <h1>Your Spotify Stats</h1>
+    <h2>Welcome, <%= displayName %></h2>
+    <img src="<%= imageUrl %>" alt="Profile picture" width="200" />
+    <p>Email: <%= email %></p>
+    <button onclick="window.location.href='/top-artists'">
+      View Top Artists of the Month
+    </button>
+    <a href="/logout">Log out</a>
+  </body>
 </html>
