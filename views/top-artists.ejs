@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Artists of the Month</title>
+</head>
+<body>
+  <h1>Top Artists of the Month</h1>
+  <ul>
+    <% topArtists.forEach(artist => { %>
+      <li><%= artist.name %></li>
+    <% }) %>
+  </ul>
+  <a href="/stats">Back to Stats</a>
+</body>
+</html>
