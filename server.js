@@ -107,7 +107,7 @@ app.get('/', (req, res) => {
       return res.redirect('/');
     }
   
-    const topArtists = await fetchTopArtists(req.session.accessToken);
+    const topArtists = await fetchTopArtists(req.session.accessToken, 'short_term');
   
     if (!topArtists) {
       return res.redirect('/login');
@@ -118,21 +118,39 @@ app.get('/', (req, res) => {
     });
   });
   
-  async function fetchTopArtists(accessToken) {
+  
+  async function fetchTopArtists(accessToken, timeRange) {
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
   
-    const queryParams = new URLSearchParams({
-      time_range: 'short_term',
-      limit: 50,
-    });
-  
     try {
-      const response = await axios.get(`https://api.spotify.com/v1/me/top/artists?${queryParams}`, { headers });
-      return response.data.items;
+      const response = await axios.get(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=50`, { headers });
+      const artists = response.data.items.map(artist => ({
+        id: artist.id,
+        name: artist.name,
+        image: artist.images[0].url,
+        popularity: artist.popularity,
+        followers: artist.followers.total,
+      }));
+      return artists;
     } catch (error) {
       console.error('Error fetching top artists:', error.message);
+      return null;
+    }
+  }  
+  
+  async function fetchArtistDetails(accessToken, artistId) {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+  
+    try {
+      const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}`, { headers });
+      const { followers, popularity, monthly_listeners } = response.data;
+      return { followers: followers.total, popularity, monthlyListeners: monthly_listeners };
+    } catch (error) {
+      console.error('Error fetching artist details:', error.message);
       return null;
     }
   }
