@@ -78,8 +78,9 @@ app.get('/', (req, res) => {
   });
   
   app.get('/logout', (req, res) => {
-    // Log out the user (this will be implemented later)
-  });
+    req.session = null;
+    res.redirect('/');
+  });  
   
   app.get('/stats', async (req, res) => {
     if (!req.session.accessToken) {
