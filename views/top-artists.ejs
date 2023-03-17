@@ -6,12 +6,28 @@
   <title>Top Artists of the Month</title>
 </head>
 <body>
-  <h1>Top Artists of the Month</h1>
-  <ul>
-    <% topArtists.forEach(artist => { %>
-      <li><%= artist.name %></li>
-    <% }) %>
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Artist</th>
+        <th>Popularity</th>
+        <th>Monthly Listeners</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const artist of artists) { %>
+        <tr>
+          <td><%= loop.index + 1 %></td>
+          <td><%= artist.name %></td>
+          <td><%= artist.popularity %></td>
+          <td><%= artist.monthlyListeners %></td>
+          <td><img src="<%= artist.image %>" alt="<%= artist.name %>" class="artist-image"></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>  
   <a href="/stats">Back to Stats</a>
 </body>
 </html>
