@@ -27,7 +27,7 @@ const SPOTIFY_SCOPES = [
   'playlist-read-collaborative',
 ];
 
-const redirectUri = 'http://localhost:3000/callback';
+const redirectUri = 'https://spotifystats.herokuapp.com/callback';
 
   
 
