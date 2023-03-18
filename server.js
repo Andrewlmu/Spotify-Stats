@@ -135,13 +135,13 @@ app.get("/top-artists", async (req, res) => {
   });
 });
 
-async function fetchTopArtists(accessToken) {
+async function fetchTopArtists(accessToken, timeRange = "short_term") {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
 
   const queryParams = new URLSearchParams({
-    time_range: "short_term",
+    time_range: timeRange,
     limit: 50,
   });
 
