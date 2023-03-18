@@ -15,9 +15,6 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const topArtistsData = JSON.parse(
-          '<%- JSON.stringify(topArtists).replace(/</g, "\\\\u003c") %>'
-        );
         const topArtistsContainer = document.querySelector(
           ".top-artists-container"
         );
@@ -34,18 +31,30 @@
           });
         }
 
-        displayTopArtists(topArtistsData);
+        async function fetchTopArtists(timeRange) {
+          try {
+            const response = await fetch(
+              `/api/top-artists?time_range=${timeRange}`
+            );
+            const artists = await response.json();
+            displayTopArtists(artists);
+          } catch (error) {
+            console.error("Failed to fetch top artists:", error.message);
+          }
+        }
+
+        fetchTopArtists("short_term");
 
         shortTermButton.addEventListener("click", () => {
-          displayTopArtists(topArtistsData);
+          fetchTopArtists("short_term");
         });
 
         mediumTermButton.addEventListener("click", () => {
-          // Implement medium-term logic
+          fetchTopArtists("medium_term");
         });
 
         longTermButton.addEventListener("click", () => {
-          // Implement long-term logic
+          fetchTopArtists("long_term");
         });
       });
     </script>

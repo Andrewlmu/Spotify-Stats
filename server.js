@@ -104,7 +104,7 @@ app.get("/stats", async (req, res) => {
   });
 });
 
-app.get("/top-artists", async (req, res) => {
+app.get("/api/top-artists", async (req, res) => {
   if (!req.session.accessToken) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -113,13 +113,12 @@ app.get("/top-artists", async (req, res) => {
   const topArtists = await fetchTopArtists(req.session.accessToken, timeRange);
 
   if (!topArtists) {
-    return res.status(500).json({ error: "Error fetching top artists" });
+    return res.status(500).json({ error: "Failed to fetch top artists" });
   }
 
   res.json(topArtists);
 });
 
-/*
 app.get("/top-artists", async (req, res) => {
   if (!req.session.accessToken) {
     return res.redirect("/");
@@ -135,7 +134,7 @@ app.get("/top-artists", async (req, res) => {
     topArtists,
   });
 });
-*/
+
 async function fetchTopArtists(accessToken, timeRange = "short_term") {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
