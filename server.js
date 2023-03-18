@@ -104,6 +104,21 @@ app.get("/stats", async (req, res) => {
   });
 });
 
+app.get("/top-artists-data", async (req, res) => {
+  if (!req.session.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const timeRange = req.query.time_range || "short_term";
+  const topArtists = await fetchTopArtists(req.session.accessToken, timeRange);
+
+  if (!topArtists) {
+    return res.status(500).json({ error: "Error fetching top artists" });
+  }
+
+  res.json(topArtists);
+});
+
 app.get("/top-artists", async (req, res) => {
   if (!req.session.accessToken) {
     return res.redirect("/");

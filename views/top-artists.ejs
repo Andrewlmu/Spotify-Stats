@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Top Artists of the Month</title>
+    <title>Top Artists</title>
   </head>
   <body>
-    <h1>Top Artists of the Month</h1>
-    <ul>
-      <% topArtists.forEach(artist => { %>
-      <li><%= artist.name %></li>
-      <% }) %>
-    </ul>
+    <h1>Top Artists</h1>
+    <button id="short-term">Last Month</button>
+    <button id="medium-term">Last 6 Months</button>
+    <button id="long-term">All Time</button>
+    <ul id="top-artists-list"></ul>
     <a href="/stats">Back to Stats</a>
+    <script src="/top-artists.js"></script>
   </body>
 </html>
