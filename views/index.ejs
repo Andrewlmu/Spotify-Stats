@@ -12,7 +12,6 @@
       body {
         min-height: 100vh;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
         background-color: #1db954;
@@ -23,7 +22,6 @@
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-        margin-bottom: 16px;
       }
 
       .card-header {
@@ -40,11 +38,6 @@
 
       .btn {
         width: 100%;
-        margin-bottom: 8px;
-      }
-
-      .btn:last-child {
-        margin-bottom: 0;
       }
     </style>
   </head>
@@ -54,15 +47,6 @@
       <div class="card-body">
         <p class="mb-4">Log in with your Spotify account to view your stats.</p>
         <a href="/login" class="btn btn-primary">Log In with Spotify</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">Explore Your Music</div>
-      <div class="card-body">
-        <a href="/top-tracks" class="btn btn-success">Top Tracks</a>
-        <a href="/top-artists" class="btn btn-success">Top Artists</a>
-        <a href="/top-genres" class="btn btn-success">Top Genres</a>
       </div>
     </div>
 
