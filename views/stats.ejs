@@ -1,19 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/css/styles.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Spotify Stats</title>
+    <title>Spotify Stats - Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #1db954;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 16px;
+      }
+
+      .profile-info {
+        color: #ffffff;
+        margin-bottom: 16px;
+      }
+
+      .btn {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      .btn:last-child {
+        margin-bottom: 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Your Spotify Stats</h1>
-    <h2>Welcome, <%= displayName %></h2>
-    <img src="<%= imageUrl %>" alt="Profile picture" width="200" />
-    <p>Email: <%= email %></p>
-    <button onclick="window.location.href='/top-artists'">
-      View Top Artists of the Month
-    </button>
-    <a href="/logout">Log out</a>
+    <div>
+      <img src="<%= imageUrl %>" alt="Profile Image" class="profile-image" />
+      <div class="profile-info">
+        <h2><%= displayName %></h2>
+        <p><%= email %></p>
+      </div>
+      <a href="/top-tracks" class="btn btn-success">Top Tracks</a>
+      <a href="/top-artists" class="btn btn-success">Top Artists</a>
+      <a href="/top-genres" class="btn btn-success">Top Genres</a>
+      <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
