@@ -104,7 +104,7 @@ app.get("/stats", async (req, res) => {
   });
 });
 
-app.get("/top-artists-data", async (req, res) => {
+app.get("/top-artists", async (req, res) => {
   if (!req.session.accessToken) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -119,6 +119,7 @@ app.get("/top-artists-data", async (req, res) => {
   res.json(topArtists);
 });
 
+/*
 app.get("/top-artists", async (req, res) => {
   if (!req.session.accessToken) {
     return res.redirect("/");
@@ -134,7 +135,7 @@ app.get("/top-artists", async (req, res) => {
     topArtists,
   });
 });
-
+*/
 async function fetchTopArtists(accessToken, timeRange = "short_term") {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
