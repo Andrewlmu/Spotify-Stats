@@ -7,11 +7,47 @@
   </head>
   <body>
     <h1>Top Artists</h1>
-    <button id="short-term">Last Month</button>
-    <button id="medium-term">Last 6 Months</button>
-    <button id="long-term">All Time</button>
-    <ul id="top-artists-list"></ul>
+    <button id="shortTerm">Short Term</button>
+    <button id="mediumTerm">Medium Term</button>
+    <button id="longTerm">Long Term</button>
+    <ul id="artistList"></ul>
     <a href="/stats">Back to Stats</a>
-    <script src="/top-artists.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const topArtistsData = JSON.parse(
+          '<%- JSON.stringify(topArtists).replace(/</g, "\\\\u003c") %>'
+        );
+        const topArtistsContainer = document.querySelector(
+          ".top-artists-container"
+        );
+        const shortTermButton = document.querySelector("#short-term");
+        const mediumTermButton = document.querySelector("#medium-term");
+        const longTermButton = document.querySelector("#long-term");
+
+        function displayTopArtists(artists) {
+          topArtistsContainer.innerHTML = "";
+          artists.forEach((artist) => {
+            const artistElement = document.createElement("div");
+            artistElement.textContent = artist.name;
+            topArtistsContainer.appendChild(artistElement);
+          });
+        }
+
+        displayTopArtists(topArtistsData);
+
+        shortTermButton.addEventListener("click", () => {
+          displayTopArtists(topArtistsData);
+        });
+
+        mediumTermButton.addEventListener("click", () => {
+          // Implement medium-term logic
+        });
+
+        longTermButton.addEventListener("click", () => {
+          // Implement long-term logic
+        });
+      });
+    </script>
   </body>
 </html>
