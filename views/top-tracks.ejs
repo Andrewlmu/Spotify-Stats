@@ -99,6 +99,8 @@
             <img src="<%= track.album.images[1].url %>" alt="<%= track.name %> Album Cover" />
             <h2 class="track-name"><%= track.name %></h2>
             <p class="artist-name"><%= track.artists[0].name %></p>
+            <p class="popularity">Track Popularity: <%= track.popularity %></p>
+            <p class="popularity">Artist Popularity: <%= track.artists[0].popularity %></p>
           </div>
         </div>
         <% }) %>
