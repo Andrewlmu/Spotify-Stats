@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Genres of the Month</title>
+  </head>
+  <body>
+    <h1>Top Genres of the Month</h1>
+    <ul>
+      <% topGenres.forEach(genre => { %>
+        <li><%= genre %></li>
+      <% }) %>
+    </ul>
+    <a href="/stats">Back to Stats</a>
+  </body>
+</html>

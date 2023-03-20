@@ -222,3 +222,46 @@ async function fetchTopTracks(accessToken) {
     return null;
   }
 }
+
+app.get("/top-genres", async (req, res) => {
+  if (!req.session.accessToken) {
+    return res.redirect("/");
+  }
+
+  const topGenres = await fetchTopGenres(req.session.accessToken);
+
+  if (!topGenres) {
+    return res.redirect("/login");
+  }
+
+  res.render("top-genres", {
+    topGenres,
+  });
+});
+
+async function fetchTopGenres(accessToken) {
+  const topArtists = await fetchTopArtists(accessToken);
+
+  if (!topArtists) {
+    return null;
+  }
+
+  const genreCount = {};
+
+  topArtists.forEach((artist) => {
+    artist.genres.forEach((genre) => {
+      if (genreCount[genre]) {
+        genreCount[genre]++;
+      } else {
+        genreCount[genre] = 1;
+      }
+    });
+  });
+
+  const topGenres = Object.entries(genreCount)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 50) // Limit to the top 50 genres
+    .map((entry) => entry[0]);
+
+  return topGenres;
+}
