@@ -183,4 +183,43 @@ async function fetchUserData(accessToken) {
     console.error("Error fetching user data:", error.message);
     return null;
   }
+
+  app.get("/top-tracks", async (req, res) => {
+    if (!req.session.accessToken) {
+      return res.redirect("/");
+    }
+  
+    const topTracks = await fetchTopTracks(req.session.accessToken);
+  
+    if (!topTracks) {
+      return res.redirect("/login");
+    }
+  
+    res.render("top-tracks", {
+      topTracks,
+    });
+  });
+
+  async function fetchTopTracks(accessToken) {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+  
+    const queryParams = new URLSearchParams({
+      time_range: "short_term",
+      limit: 50,
+    });
+  
+    try {
+      const response = await axios.get(
+        `https://api.spotify.com/v1/me/top/tracks?${queryParams}`,
+        { headers }
+      );
+      return response.data.items;
+    } catch (error) {
+      console.error("Error fetching top tracks:", error.message);
+      return null;
+    }
+  }
+  
 }
