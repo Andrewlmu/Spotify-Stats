@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top Tracks of the Month</title>
+    <p class="text-muted" style="font-size: 0.8rem">
+      Popularity scores are based on a combination of Spotify's play count and
+      other factors. The score ranges from 0 to 100, with higher scores
+      indicating higher popularity.
+    </p>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -14,7 +19,7 @@
     />
     <style>
       body {
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
         background-color: #f8f9fa;
       }
 
@@ -96,11 +101,18 @@
         <div class="col">
           <div class="track">
             <div class="track-number"><%= index + 1 %></div>
-            <img src="<%= track.album.images[1].url %>" alt="<%= track.name %> Album Cover" />
+            <img
+              src="<%= track.album.images[1].url %>"
+              alt="<%= track.name %> Album Cover"
+            />
             <h2 class="track-name"><%= track.name %></h2>
             <p class="artist-name"><%= track.artists[0].name %></p>
             <p class="popularity">Track Popularity: <%= track.popularity %></p>
-            <p class="popularity">Artist Popularity: <%= track.artists[0].popularity %></p>
+            <!--
+            <p class="popularity">
+              Artist Popularity: <%= track.artists[0].popularity %>
+            </p>
+            -->
           </div>
         </div>
         <% }) %>
