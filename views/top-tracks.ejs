@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Stats - Top Tracks</title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-  <%- include('partials/navbar') %>
-  <main>
-    <h1>Top Tracks</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Tracks of the Month</title>
+  </head>
+  <body>
+    <h1>Top Tracks of the Month</h1>
     <ul>
-      <% topTracks.forEach((track, index) => { %>
-        <li>
-          <span><%= index + 1 %>. <%= track.name %></span>
-          <span> - <%= track.artists.map(artist => artist.name).join(', ') %></span>
-        </li>
-      <% }); %>
+      <% topTracks.forEach(track => { %>
+      <li><%= track.name %></li>
+      <% }) %>
     </ul>
-  </main>
-</body>
+    <a href="/stats">Back to Stats</a>
+  </body>
 </html>
