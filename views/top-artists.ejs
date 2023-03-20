@@ -3,60 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Top Artists</title>
+    <title>Top Artists of the Month</title>
   </head>
   <body>
-    <h1>Top Artists</h1>
-    <button id="shortTerm">Short Term</button>
-    <button id="mediumTerm">Medium Term</button>
-    <button id="longTerm">Long Term</button>
-    <ul id="artistList"></ul>
+    <h1>Top Artists of the Month</h1>
+    <ul>
+      <% topArtists.forEach(artist => { %>
+      <li><%= artist.name %></li>
+      <% }) %>
+    </ul>
     <a href="/stats">Back to Stats</a>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const topArtistsContainer = document.querySelector(
-          ".top-artists-container"
-        );
-        const shortTermButton = document.querySelector("#short-term");
-        const mediumTermButton = document.querySelector("#medium-term");
-        const longTermButton = document.querySelector("#long-term");
-
-        function displayTopArtists(artists) {
-          topArtistsContainer.innerHTML = "";
-          artists.forEach((artist) => {
-            const artistElement = document.createElement("div");
-            artistElement.textContent = artist.name;
-            topArtistsContainer.appendChild(artistElement);
-          });
-        }
-
-        async function fetchTopArtists(timeRange) {
-          try {
-            const response = await fetch(
-              `/api/top-artists?time_range=${timeRange}`
-            );
-            const artists = await response.json();
-            displayTopArtists(artists);
-          } catch (error) {
-            console.error("Failed to fetch top artists:", error.message);
-          }
-        }
-
-        fetchTopArtists("short_term");
-
-        shortTermButton.addEventListener("click", () => {
-          fetchTopArtists("short_term");
-        });
-
-        mediumTermButton.addEventListener("click", () => {
-          fetchTopArtists("medium_term");
-        });
-
-        longTermButton.addEventListener("click", () => {
-          fetchTopArtists("long_term");
-        });
-      });
-    </script>
   </body>
 </html>

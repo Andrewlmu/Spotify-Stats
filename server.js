@@ -104,21 +104,6 @@ app.get("/stats", async (req, res) => {
   });
 });
 
-app.get("/api/top-artists", async (req, res) => {
-  if (!req.session.accessToken) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  const timeRange = req.query.time_range || "short_term";
-  const topArtists = await fetchTopArtists(req.session.accessToken, timeRange);
-
-  if (!topArtists) {
-    return res.status(500).json({ error: "Failed to fetch top artists" });
-  }
-
-  res.json(topArtists);
-});
-
 app.get("/top-artists", async (req, res) => {
   if (!req.session.accessToken) {
     return res.redirect("/");
@@ -135,13 +120,13 @@ app.get("/top-artists", async (req, res) => {
   });
 });
 
-async function fetchTopArtists(accessToken, timeRange = "short_term") {
+async function fetchTopArtists(accessToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
   };
 
   const queryParams = new URLSearchParams({
-    time_range: timeRange,
+    time_range: "short_term",
     limit: 50,
   });
 
