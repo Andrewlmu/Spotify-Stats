@@ -95,7 +95,7 @@ app.get("/stats", async (req, res) => {
 
   if (!userData) {
     console.log("No user data found. Redirecting to /login.");
-    //return res.redirect("/login");
+    return res.redirect("/login");
   }
 
   const { display_name: displayName, email, images } = userData;
