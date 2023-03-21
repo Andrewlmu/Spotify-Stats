@@ -146,7 +146,7 @@ async function fetchTopArtists(accessToken) {
       `https://api.spotify.com/v1/me/top/artists?${queryParams}`,
       { headers }
     );
-    return response.data.items;
+    return response.data.items || []; // Return an empty array if no data is available
   } catch (error) {
     console.error("Error fetching top artists:", error.message);
     return null;
@@ -189,7 +189,7 @@ async function fetchUserData(accessToken) {
     const response = await axios.get("https://api.spotify.com/v1/me", {
       headers,
     });
-    return response.data;
+    return response.data || {}; // Return an empty object if no data is available
   } catch (error) {
     console.error("Error fetching user data:", error.message);
     console.error("Error details:", error.response.data); // More detailed error information
@@ -228,7 +228,7 @@ async function fetchTopTracks(accessToken) {
       `https://api.spotify.com/v1/me/top/tracks?${queryParams}`,
       { headers }
     );
-    return response.data.items;
+    return response.data.items || []; // Return an empty array if no data is available
   } catch (error) {
     console.error("Error fetching top tracks:", error.message);
     return null;
