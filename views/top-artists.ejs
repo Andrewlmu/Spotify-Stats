@@ -4,14 +4,119 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top Artists of the Month</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        max-width: 1200px;
+        padding: 2rem;
+      }
+
+      .row {
+        margin-bottom: 2rem;
+      }
+
+      h1 {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .disclaimer {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #777;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .artist {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        padding: 1rem;
+        transition: transform 0.3s;
+      }
+
+      .artist:hover {
+        transform: translateY(-5px);
+      }
+
+      .artist img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+      }
+
+      .artist-name {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .artist-number {
+        display: inline-block;
+        font-size: 1.5rem;
+        color: #1db954;
+        margin-bottom: 1rem;
+      }
+
+      .popularity {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #777;
+      }
+    </style>
   </head>
   <body>
-    <h1>Top Artists of the Month</h1>
-    <ul>
-      <% topArtists.forEach(artist => { %>
-      <li><%= artist.name %></li>
-      <% }) %>
-    </ul>
-    <a href="/stats">Back to Stats</a>
+    <div class="container">
+      <div class="text-center mt-5">
+        <h1>Top Artists of the Month</h1>
+        <p class="text-muted fs-6 mx-5">
+          Popularity scores are based on a combination of Spotify's play count
+          and other factors. The score ranges from 0 to 100, with higher scores
+          indicating higher popularity.
+        </p>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
+        <% topArtists.forEach((artist, index) => { %>
+        <div class="col">
+          <div class="artist">
+            <div class="artist-number"><%= index + 1 %></div>
+            <img
+              src="<%= artist.images[1]?.url || 'https://via.placeholder.com/300x300' %>"
+              alt="<%= artist.name %> Image"
+            />
+            <h2 class="artist-name"><%= artist.name %></h2>
+            <p class="popularity">
+              Artist Popularity: <%= artist.popularity %>
+            </p>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <div class="container text-center">
+      <a href="/stats">Back to Stats</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
