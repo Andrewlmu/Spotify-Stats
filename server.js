@@ -92,24 +92,24 @@ app.get("/logout", (req, res) => {
 
 app.get("/stats", async (req, res) => {
   if (!req.session.accessToken) {
-    console.log("No access token in session. Redirecting to /login.");
+    console.log("No access token in session. Redirecting to /.");
     forceLogout(req);
-    return res.redirect("/login");
+    return res.redirect("/");
   }
 
   const userData = await fetchUserData(req.session.accessToken);
 
-  // Check for an invalid access token error and redirect to the login page
+  // Check for an invalid access token error and redirect to the home page
   if (userData && userData.error === "invalid_token") {
-    console.log("Invalid access token. Redirecting to /login.");
+    console.log("Invalid access token. Redirecting to /.");
     forceLogout(req);
-    return res.redirect("/login");
+    return res.redirect("/");
   }
 
   if (!userData) {
-    console.log("No user data found. Redirecting to /login.");
+    console.log("No user data found. Redirecting to /.");
     forceLogout(req);
-    return res.redirect("/login");
+    return res.redirect("/");
   }
 
   const displayName = userData.display_name || "Unknown User";
