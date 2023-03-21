@@ -307,7 +307,7 @@ async function fetchTopGenres(accessToken) {
 
   const topGenres = Object.entries(genreCount)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 50) // Limit to the top 50 genres
+    .slice(0, 100) // Limit to the top 100 genres
     .map((entry, index) => {
       return {
         rank: index + 1,
