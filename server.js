@@ -86,9 +86,11 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/stats", async (req, res) => {
+  console.log("Session data:", req.session);
+  
   if (!req.session.accessToken) {
     console.log("No access token in session. Redirecting to /login.");
-    //return res.redirect("/login");
+    return res.redirect("/login");
   }
 
   const userData = await fetchUserData(req.session.accessToken);
