@@ -71,6 +71,8 @@ app.get("/callback", async (req, res) => {
     req.session.accessToken = accessToken;
     req.session.refreshToken = refreshToken;
 
+    console.log("Access token set in session:", accessToken);
+
     res.redirect("/stats");
   } catch (error) {
     console.error("Error getting access token:", error.message);
@@ -87,7 +89,7 @@ app.get("/logout", (req, res) => {
 
 app.get("/stats", async (req, res) => {
   console.log("Session data:", req.session);
-  
+
   if (!req.session.accessToken) {
     console.log("No access token in session. Redirecting to /login.");
     return res.redirect("/login");
@@ -187,6 +189,7 @@ async function fetchUserData(accessToken) {
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error.message);
+    console.error("Error details:", error.response.data); // More detailed error information
     return null;
   }
 }
