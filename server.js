@@ -74,9 +74,11 @@ app.get("/callback", async (req, res) => {
     res.redirect("/stats");
   } catch (error) {
     console.error("Error getting access token:", error.message);
-    res.status(400).send(`Error getting access token: ${error.message}`);
+    console.error("Error details:", error.data); // Add this line
+    res.redirect("/");
   }
 });
+
 
 app.get("/logout", (req, res) => {
   req.session = null;
