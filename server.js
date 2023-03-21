@@ -105,8 +105,11 @@ app.get("/stats", async (req, res) => {
     return res.redirect("/login");
   }
 
-  const { display_name: displayName, email, images } = userData;
-  const imageUrl = images.length > 0 ? images[0].url : "";
+  const displayName = userData.display_name || "Unknown User";
+  const email = userData.email || "No email available";
+  const images = userData.images || [];
+  const imageUrl =
+    images.length > 0 ? images[0].url : "/default-profile-pic.png"; // Provide a default image path
 
   res.render("stats", {
     displayName,
