@@ -269,7 +269,7 @@ async function fetchTopTracks(accessToken) {
 
   const queryParams = new URLSearchParams({
     time_range: "short_term",
-    limit: 50,
+    limit: 100,
   });
 
   try {
