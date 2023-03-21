@@ -1,3 +1,4 @@
+// Import modules and packages
 const express = require("express");
 const ejs = require("ejs");
 const axios = require("axios");
@@ -5,12 +6,7 @@ const dotenv = require("dotenv");
 const cookieSession = require("cookie-session");
 const { AuthorizationCode } = require("simple-oauth2");
 
-/* 
-
-  Initialize and configure the app
-
-*/
-
+// Initialize and configure the app
 dotenv.config();
 
 const oauth2Client = new AuthorizationCode({
@@ -37,12 +33,7 @@ const redirectUri = "https://spotifystats.herokuapp.com/callback";
 
 const app = express();
 
-/* 
-
-  Middleware
-
-*/
-
+// Middleware
 app.use(express.static("public")); // Serve static files (CSS, images) from the 'public' folder
 
 app.set("view engine", "ejs"); // Set EJS as the view engine
@@ -55,12 +46,7 @@ app.use(
   })
 );
 
-/* 
-
-  Routes
-
-*/
-
+// Routes
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -192,12 +178,7 @@ app.get("/top-genres", async (req, res) => {
   });
 });
 
-/*
-
-  Utility functions
-
-*/
-
+// Utility functions
 async function fetchUserData(accessToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -323,6 +304,7 @@ function forceLogout(req) {
   req.session = null;
 }
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
