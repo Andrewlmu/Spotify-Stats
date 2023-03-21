@@ -57,6 +57,7 @@ app.get("/login", (req, res) => {
   const authorizationUri = oauth2Client.authorizeURL({
     scope: SPOTIFY_SCOPES,
     redirect_uri: redirectUri,
+    prompt: "login",
   });
 
   console.log("Authorization URI:", authorizationUri);
@@ -85,7 +86,7 @@ app.get("/callback", async (req, res) => {
     res.redirect("/stats");
   } catch (error) {
     console.error("Error getting access token:", error.message);
-    console.error("Error details:", error.data); // Add this line
+    console.error("Error details:", error.data);
     res.redirect("/");
   }
 });
