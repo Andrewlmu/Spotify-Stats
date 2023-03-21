@@ -272,6 +272,7 @@ async function fetchTopGenres(accessToken) {
   }
 
   const genreCount = {};
+  const genreArtists = {};
 
   topArtists.forEach((artist) => {
     artist.genres.forEach((genre) => {
@@ -279,6 +280,7 @@ async function fetchTopGenres(accessToken) {
         genreCount[genre]++;
       } else {
         genreCount[genre] = 1;
+        genreArtists[genre] = artist.images[1].url;
       }
     });
   });
@@ -286,7 +288,12 @@ async function fetchTopGenres(accessToken) {
   const topGenres = Object.entries(genreCount)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 50) // Limit to the top 50 genres
-    .map((entry) => entry[0]);
+    .map((entry) => {
+      return {
+        name: entry[0],
+        artistImage: genreArtists[entry[0]],
+      };
+    });
 
   return topGenres;
 }
