@@ -43,6 +43,9 @@
   </head>
   <body>
     <div>
+      <% if (noData) { %>
+      <h2 class="profile-info">No data found</h2>
+      <% } else { %>
       <img src="<%= imageUrl %>" alt="Profile Image" class="profile-image" />
       <div class="profile-info">
         <h2><%= displayName %></h2>
@@ -51,6 +54,7 @@
       <a href="/top-tracks" class="btn btn-success">Top Tracks</a>
       <a href="/top-artists" class="btn btn-success">Top Artists</a>
       <a href="/top-genres" class="btn btn-success">Top Genres</a>
+      <% } %>
       <a href="/logout" class="btn btn-danger">Logout</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

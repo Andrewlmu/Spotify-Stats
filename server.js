@@ -107,9 +107,8 @@ app.get("/stats", async (req, res) => {
   }
 
   if (!userData) {
-    console.log("No user data found. Redirecting to /.");
-    forceLogout(req);
-    return res.redirect("/");
+    console.log("No user data found.");
+    return res.render("stats", { noData: true });
   }
 
   const displayName = userData.display_name || "Unknown User";
@@ -122,6 +121,7 @@ app.get("/stats", async (req, res) => {
     displayName,
     email,
     imageUrl,
+    noData: false,
   });
 });
 
