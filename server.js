@@ -179,6 +179,24 @@ app.get("/top-genres", async (req, res) => {
   });
 });
 
+app.get("/listening-habits", async (req, res) => {
+  if (!req.session.accessToken) {
+    return res.redirect("/");
+  }
+
+  const listeningHabitsData = await fetchListeningHabitsData(
+    req.session.accessToken
+  );
+
+  if (!listeningHabitsData) {
+    return res.redirect("/login");
+  }
+
+  res.render("listening-habits", {
+    listeningHabitsData,
+  });
+});
+
 // Utility functions
 async function fetchUserData(accessToken) {
   const headers = {
@@ -299,6 +317,25 @@ async function fetchTopGenres(accessToken) {
     });
 
   return topGenres;
+}
+
+async function fetchListeningHabitsData(accessToken) {
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  try {
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/player/recently-played?limit=50",
+      {
+        headers,
+      }
+    );
+    return response.data.items || []; // Return an empty array if no data is available
+  } catch (error) {
+    console.error("Error fetching listening habits data:", error.message);
+    return null;
+  }
 }
 
 function forceLogout(req) {
