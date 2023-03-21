@@ -5,6 +5,12 @@ const dotenv = require("dotenv");
 const cookieSession = require("cookie-session");
 const { AuthorizationCode } = require("simple-oauth2");
 
+/* 
+
+  Initialize and configure the app
+
+*/
+
 dotenv.config();
 
 const oauth2Client = new AuthorizationCode({
@@ -31,7 +37,14 @@ const redirectUri = "https://spotifystats.herokuapp.com/callback";
 
 const app = express();
 
+/* 
+
+  Middleware
+
+*/
+
 app.use(express.static("public")); // Serve static files (CSS, images) from the 'public' folder
+
 app.set("view engine", "ejs"); // Set EJS as the view engine
 
 app.use(
@@ -41,6 +54,12 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
+
+/* 
+
+  Routes
+
+*/
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -141,6 +160,64 @@ app.get("/top-artists", async (req, res) => {
   });
 });
 
+app.get("/top-tracks", async (req, res) => {
+  if (!req.session.accessToken) {
+    return res.redirect("/");
+  }
+
+  const topTracks = await fetchTopTracks(req.session.accessToken);
+
+  if (!topTracks) {
+    return res.redirect("/login");
+  }
+
+  res.render("top-tracks", {
+    topTracks,
+  });
+});
+
+app.get("/top-genres", async (req, res) => {
+  if (!req.session.accessToken) {
+    return res.redirect("/");
+  }
+
+  const topGenres = await fetchTopGenres(req.session.accessToken);
+
+  if (!topGenres) {
+    return res.redirect("/login");
+  }
+
+  res.render("top-genres", {
+    topGenres,
+  });
+});
+
+/*
+
+  Utility functions
+
+*/
+
+async function fetchUserData(accessToken) {
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  try {
+    const response = await axios.get("https://api.spotify.com/v1/me", {
+      headers,
+    });
+    return response.data || {};
+  } catch (error) {
+    console.error("Error fetching user data:", error.message);
+    // Return an error object when the access token is invalid
+    if (error.response && error.response.status === 401) {
+      return { error: "invalid_token" };
+    }
+    return null;
+  }
+}
+
 async function fetchTopArtists(accessToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -185,47 +262,6 @@ async function fetchArtistDetails(accessToken, artistId) {
   }
 }
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-async function fetchUserData(accessToken) {
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-  };
-
-  try {
-    const response = await axios.get("https://api.spotify.com/v1/me", {
-      headers,
-    });
-    return response.data || {};
-  } catch (error) {
-    console.error("Error fetching user data:", error.message);
-    // Return an error object when the access token is invalid
-    if (error.response && error.response.status === 401) {
-      return { error: "invalid_token" };
-    }
-    return null;
-  }
-}
-
-app.get("/top-tracks", async (req, res) => {
-  if (!req.session.accessToken) {
-    return res.redirect("/");
-  }
-
-  const topTracks = await fetchTopTracks(req.session.accessToken);
-
-  if (!topTracks) {
-    return res.redirect("/login");
-  }
-
-  res.render("top-tracks", {
-    topTracks,
-  });
-});
-
 async function fetchTopTracks(accessToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -247,22 +283,6 @@ async function fetchTopTracks(accessToken) {
     return null;
   }
 }
-
-app.get("/top-genres", async (req, res) => {
-  if (!req.session.accessToken) {
-    return res.redirect("/");
-  }
-
-  const topGenres = await fetchTopGenres(req.session.accessToken);
-
-  if (!topGenres) {
-    return res.redirect("/login");
-  }
-
-  res.render("top-genres", {
-    topGenres,
-  });
-});
 
 async function fetchTopGenres(accessToken) {
   const topArtists = await fetchTopArtists(accessToken);
@@ -302,3 +322,8 @@ async function fetchTopGenres(accessToken) {
 function forceLogout(req) {
   req.session = null;
 }
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
