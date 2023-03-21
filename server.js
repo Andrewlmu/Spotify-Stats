@@ -91,14 +91,18 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/stats", async (req, res) => {
-  console.log("Session data:", req.session);
-
   if (!req.session.accessToken) {
     console.log("No access token in session. Redirecting to /login.");
     return res.redirect("/login");
   }
 
   const userData = await fetchUserData(req.session.accessToken);
+
+  // Check for an invalid access token error and redirect to the login page
+  if (userData && userData.error === "invalid_token") {
+    console.log("Invalid access token. Redirecting to /login.");
+    return res.redirect("/login");
+  }
 
   if (!userData) {
     console.log("No user data found. Redirecting to /login.");
@@ -108,8 +112,7 @@ app.get("/stats", async (req, res) => {
   const displayName = userData.display_name || "Unknown User";
   const email = userData.email || "No email available";
   const images = userData.images || [];
-  const imageUrl =
-    images.length > 0 ? images[0].url : "/default-profile-pic.png"; // Provide a default image path
+  const imageUrl = images.length > 0 ? images[0].url : "/default-profile-pic.png";
 
   res.render("stats", {
     displayName,
@@ -192,10 +195,13 @@ async function fetchUserData(accessToken) {
     const response = await axios.get("https://api.spotify.com/v1/me", {
       headers,
     });
-    return response.data || {}; // Return an empty object if no data is available
+    return response.data || {};
   } catch (error) {
     console.error("Error fetching user data:", error.message);
-    console.error("Error details:", error.response.data); // More detailed error information
+    // Return an error object when the access token is invalid
+    if (error.response && error.response.status === 401) {
+      return { error: "invalid_token" };
+    }
     return null;
   }
 }
