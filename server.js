@@ -93,6 +93,7 @@ app.get("/logout", (req, res) => {
 app.get("/stats", async (req, res) => {
   if (!req.session.accessToken) {
     console.log("No access token in session. Redirecting to /login.");
+    forceLogout(req);
     return res.redirect("/login");
   }
 
@@ -101,18 +102,21 @@ app.get("/stats", async (req, res) => {
   // Check for an invalid access token error and redirect to the login page
   if (userData && userData.error === "invalid_token") {
     console.log("Invalid access token. Redirecting to /login.");
+    forceLogout(req);
     return res.redirect("/login");
   }
 
   if (!userData) {
     console.log("No user data found. Redirecting to /login.");
+    forceLogout(req);
     return res.redirect("/login");
   }
 
   const displayName = userData.display_name || "Unknown User";
   const email = userData.email || "No email available";
   const images = userData.images || [];
-  const imageUrl = images.length > 0 ? images[0].url : "/default-profile-pic.png";
+  const imageUrl =
+    images.length > 0 ? images[0].url : "/default-profile-pic.png";
 
   res.render("stats", {
     displayName,
@@ -285,4 +289,8 @@ async function fetchTopGenres(accessToken) {
     .map((entry) => entry[0]);
 
   return topGenres;
+}
+
+function forceLogout(req) {
+  req.session = null;
 }
