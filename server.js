@@ -47,10 +47,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+  console.log("Entering /login route");
+
   const authorizationUri = oauth2Client.authorizeURL({
     scope: SPOTIFY_SCOPES,
     redirect_uri: redirectUri,
   });
+
+  console.log("Authorization URI:", authorizationUri);
 
   res.redirect(authorizationUri);
 });
@@ -80,7 +84,6 @@ app.get("/callback", async (req, res) => {
     res.redirect("/");
   }
 });
-
 
 app.get("/logout", (req, res) => {
   req.session = null;
