@@ -57,7 +57,7 @@ app.get("/login", (req, res) => {
   const authorizationUri = oauth2Client.authorizeURL({
     scope: SPOTIFY_SCOPES,
     redirect_uri: redirectUri,
-    prompt: "login",
+    show_dialog: true,
   });
 
   console.log("Authorization URI:", authorizationUri);
