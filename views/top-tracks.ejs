@@ -118,27 +118,19 @@
       
       <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
         <% topTracks.forEach((track, index) => { %>
-            <div class="col">
-              <div class="track">
-                <div class="track-number"><%= index + 1 %></div>
-                <img
-                  src="<%= track.album.images[1].url %>"
-                  alt="<%= track.name %> Album Cover"
-                />
-                <div class="tooltip-container">
-                  <h2 class="track-name"><%= track.name %></h2>
-                  <div class="tooltip">
-                    <p><strong>Danceability:</strong> <%= track.audioFeatures.danceability %></p>
-                    <p><strong>Energy:</strong> <%= track.audioFeatures.energy %></p>
-                    <p><strong>Valence:</strong> <%= track.audioFeatures.valence %></p>
-                    <p><strong>Tempo:</strong> <%= track.audioFeatures.tempo %></p>
-                  </div>
-                </div>
-                <p class="artist-name"><%= track.artists[0].name %></p>
-                <p class="popularity">Track Popularity: <%= track.popularity %></p>
-              </div>
-            </div>
-          <% }) %>          
+        <div class="col">
+          <div class="track">
+            <div class="track-number"><%= index + 1 %></div>
+            <img
+              src="<%= track.album.images[1].url %>"
+              alt="<%= track.name %> Album Cover"
+            />
+            <h2 class="track-name"><%= track.name %></h2>
+            <p class="artist-name"><%= track.artists[0].name %></p>
+            <p class="popularity">Track Popularity: <%= track.popularity %></p>
+          </div>
+        </div>
+        <% }) %>
       </div>
     </div>
     <div class="container text-center">
