@@ -22,7 +22,7 @@ const oauth2Client = new AuthorizationCode({
 });
 
 const SPOTIFY_SCOPES = [
-  "user-read-email",
+  //"user-read-email",
   "user-read-private",
   "user-top-read",
   "playlist-read-private",
@@ -118,14 +118,14 @@ app.get("/stats", async (req, res) => {
   }
 
   const displayName = userData.display_name || "Unknown User";
-  const email = userData.email || "No email available";
+  //const email = userData.email || "No email available";
   const images = userData.images || [];
   const imageUrl =
     images.length > 0 ? images[0].url : "/default-profile-pic.png";
 
   res.render("stats", {
     displayName,
-    email,
+    //email,
     imageUrl,
     noData: false,
   });
@@ -207,9 +207,11 @@ async function fetchUserData(accessToken) {
     const response = await axios.get("https://api.spotify.com/v1/me", {
       headers,
     });
+    console.log("API response:", response);
     return response.data || {};
   } catch (error) {
     console.error("Error fetching user data:", error.message);
+    console.error("Error response:", error.response);
     // Return an error object when the access token is invalid
     if (error.response && error.response.status === 401) {
       return { error: "invalid_token" };
