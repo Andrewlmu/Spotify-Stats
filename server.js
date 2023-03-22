@@ -107,7 +107,18 @@ app.get("/stats", async (req, res) => {
 
   // Check for an invalid access token error and redirect to the home page
   if (userData && userData.error === "invalid_token") {
-    console.log("Invalid access token. Redirecting to /.");
+    console.log("Invalid access token. Trying to refresh it.");
+
+    if (req.session.refreshToken) {
+      const newAccessToken = await refreshAccessToken(req.session.refreshToken);
+      if (newAccessToken) {
+        req.session.accessToken = newAccessToken;
+        console.log("Access token refreshed:", newAccessToken);
+        return res.redirect("/stats");
+      }
+    }
+
+    console.log("Failed to refresh access token. Redirecting to /.");
     forceLogout(req);
     return res.redirect("/");
   }
@@ -189,9 +200,20 @@ async function fetchUserData(accessToken) {
     const response = await axios.get("https://api.spotify.com/v1/me", {
       headers,
     });
+
+    if (!response.data) {
+      console.error("fetchUserData: Response data is empty");
+      console.log("fetchUserData: Full response object:", response);
+    }
+
     return response.data || {};
   } catch (error) {
     console.error("Error fetching user data:", error.message);
+    console.error(
+      "Error details:",
+      error.response ? error.response.data : error
+    );
+
     // Return an error object when the access token is invalid
     if (error.response && error.response.status === 401) {
       return { error: "invalid_token" };
@@ -303,6 +325,31 @@ async function fetchTopGenres(accessToken) {
 
 function forceLogout(req) {
   req.session = null;
+}
+
+async function refreshAccessToken(refreshToken) {
+  const params = new URLSearchParams();
+  params.append("grant_type", "refresh_token");
+  params.append("refresh_token", refreshToken);
+
+  const headers = {
+    Authorization: `Basic ${Buffer.from(
+      `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+    ).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  try {
+    const response = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      params,
+      { headers }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.error("Error refreshing access token:", error.message);
+    return null;
+  }
 }
 
 // Start the server
