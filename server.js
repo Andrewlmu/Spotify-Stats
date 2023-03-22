@@ -179,6 +179,7 @@ app.get("/top-genres", async (req, res) => {
   });
 });
 
+/*
 app.get("/listening-habits", async (req, res) => {
   if (!req.session.accessToken) {
     return res.redirect("/");
@@ -196,6 +197,7 @@ app.get("/listening-habits", async (req, res) => {
     listeningHabitsData,
   });
 });
+*/
 
 // Utility functions
 async function fetchUserData(accessToken) {
@@ -321,6 +323,7 @@ async function fetchTopGenres(accessToken) {
   return topGenres;
 }
 
+/*
 async function fetchListeningHabitsData(accessToken) {
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -339,6 +342,7 @@ async function fetchListeningHabitsData(accessToken) {
     return null;
   }
 }
+*/
 
 function forceLogout(req) {
   req.session = null;
